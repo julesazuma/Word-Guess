@@ -61,66 +61,8 @@ function reloadDisplay() {
     }
 };
 
-function updatesportsImage() {
-    document.getElementById("sportsImage").src = "assets/images/" + (maxGuesses - guessesRemaining) + ".png";
-};
 
-document.onkeydown = function(event) {
 
-    if(finishedGame) {
-        refreshGame();
-        finishedGame = false;
-    } else {
 
-        if(event.keyCode >= 65 && event.keyCode <= 90) {
-            makeGuess(event.key.toLowerCase());
-        }
-    }
-};
 
-function makeGuess(letter) {
-    if (guessesRemaining > 0) {
-        if (!startedGame) {
-            startedGame = true;
-        }
-
-        if (lettersGuessed.indexOf(letter) === -1) {
-            lettersGuessed.push(letter);
-            evaluateGuess(letter);
-        }
-    }
-    
-    reloadDisplay();
-    checkWin();
-};
-
-function evaluateGuess(letter) {
-
-    var positions = [];
-
-    for (var i = 0; i < wordList[currentWord].length; i++) {
-        if(wordList[currentWord][i] === letter) {
-            positions.push(i);
-        }
-    }
-
-    if (positions.length <= 0) {
-        guessesRemaining--;
-        updatesportsImage();
-    } else {
-
-        for(var i = 0; i < positions.length; i++) {
-            matchWord[positions[i]] = letter;
-        }
-    }
-};
-
-function checkWin() {
-    if(matchWord.indexOf("_") === -1) {
-        document.getElementById("youwin-image").style.cssText = "display: block";
-        document.getElementById("tryAgain").style.cssText= "display: block";
-        wins++;
-        finishedGame = true;
-    }
-};
 
