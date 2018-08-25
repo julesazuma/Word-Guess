@@ -36,9 +36,9 @@ var wins = 0;
 // Use Math.floor to round the random number down
 
 // Clear arrays
-
+ 
 // Clear image
-
+ 
 // Create the guessing word and clear it out
 
 // Hide win and gameover images/text
