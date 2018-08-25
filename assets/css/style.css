@@ -23,6 +23,7 @@ h1,h2,p {
 
 #currentWord {
     letter-spacing: 10px;
+    color: blue;
 }
 
 #tryAgain, 
