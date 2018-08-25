@@ -1,0 +1,42 @@
+body {
+    background-color: white;
+    padding-top: 20px;
+    font-family: cursive;
+    color: silver;
+
+    background: url('../images/bgimage.jpg') no-repeat;
+    background-size: cover;
+}
+.container { 
+    text-align: center;
+    
+}
+
+h1,h2,h3,
+h4,h5,h6 {
+    padding: 5px;
+    color: blue;
+    background-color: silver;
+}
+#title-image, #gameover-image, #youwin-image{ 
+    display: block;
+    margin: 25px auto;
+}
+
+#currentWord {
+    letter-spacing: 10px;
+}
+
+#reset, 
+#gameover-image, 
+#youwin-image { 
+    display: none;}
+    
+.content-column {
+    padding-top: 20px;
+    border: 3px double silver;
+    text-align: center;
+    margin-top: 20px;
+    min-height: 500px;
+    background-color: silver;
+}
