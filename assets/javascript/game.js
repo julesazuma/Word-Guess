@@ -23,7 +23,7 @@ var finishedGame = false;
 var wins = 0;                   
 
 
-function reloadGame() {
+function refreshGame() {
     guessesRemaining = maxGuesses;
     startedGame = false;
 
@@ -64,17 +64,59 @@ function reloadDisplay() {
 document.onkeydown = function(event) {
 
     if(finishedGame) {
-        reloadGame();
+        refreshGame();
         finishedGame = false;
     } else {
 
         if(event.keyCode >= 65 && event.keyCode <= 90) {
-            makeGuess(event.key.toLowerCase());
+            guessLetter(event.key.toLowerCase());
         }
     }
 };
 
+function guessLetter(letter) {
+    if (guessesRemaining > 0) {
+        if (!startedGame) {
+            startedGame = true;
+        }
 
+        if (lettersGuessed.indexOf(letter) === -1) {
+            lettersGuessed.push(letter);
+            assessGuess(letter);
+        }
+    }
+    
+    reloadDisplay();
+    recordWins();
+};
 
+function assessGuess(letter) {
 
+    var positions = [];
+
+    for (var i = 0; i < wordList[currentWord].length; i++) {
+        if(wordList[currentWord][i] === letter) {
+            positions.push(i);
+        }
+    }
+
+    if (positions.length <= 0) {
+        guessesRemaining--;
+        updatesportsImage();
+    } else {
+
+        for(var i = 0; i < positions.length; i++) {
+            matchWord[positions[i]] = letter;
+        }
+    }
+};
+
+function recordWins() {
+    if(matchWord.indexOf("_") === -1) {
+        document.getElementById("youwin-image").style.cssText = "display: block";
+        document.getElementById("tryAgain").style.cssText= "display: block";
+        wins++;
+        finishedGame = true;
+    }
+};
 
