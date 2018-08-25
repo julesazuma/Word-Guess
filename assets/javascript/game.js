@@ -13,17 +13,17 @@ var wordList =
         "marathon",
     ];
 
-const maxGuesses = 10;
+const maxGuesses = 10; 
 var matchWord = [];                  
-var currentWord;  
-var lettersGuessed = [];  
+var currentWord;
+var lettersGuessed = [];   
 var guessesRemaining = 0;
 var startedGame = false;  
 var finishedGame = false;
 var wins = 0;                   
 
 
-function resetGame() {
+function refreshGame() {
     guessesRemaining = maxGuesses;
     startedGame = false;
 
@@ -42,40 +42,85 @@ function resetGame() {
     document.getElementById("youwin-image").style.cssText = "display: none";
     document.getElementById("gameover-image").style.cssText = "display: none";
     
-    updateDisplay();
+    reloadDisplay();
 };
 
+function reloadDisplay() {
 
+    document.getElementById("totalWins").innerText = wins;
+    document.getElementById("currentWord").innerText = "";
+    for (var i = 0; i < matchWord.length; i++) {
+        document.getElementById("currentWord").innerText += matchWord[i];
+    }
+    document.getElementById("guessesRemaining").innerText = guessesRemaining;
+    document.getElementById("lettersGuessed").innerText = lettersGuessed;
+    if(guessesRemaining <= 0) {
+        document.getElementById("gameover-image").style.cssText = "display: block";
+        document.getElementById("tryAgain").style.cssText = "display:block";
+        finishedGame = true;
+    }
+};
 
+function updatesportsImage() {
+    document.getElementById("sportsImage").src = "assets/images/" + (maxGuesses - guessesRemaining) + ".png";
+};
 
+document.onkeydown = function(event) {
 
+    if(finishedGame) {
+        refreshGame();
+        finishedGame = false;
+    } else {
 
+        if(event.keyCode >= 65 && event.keyCode <= 90) {
+            makeGuess(event.key.toLowerCase());
+        }
+    }
+};
 
+function makeGuess(letter) {
+    if (guessesRemaining > 0) {
+        if (!startedGame) {
+            startedGame = true;
+        }
 
+        if (lettersGuessed.indexOf(letter) === -1) {
+            lettersGuessed.push(letter);
+            evaluateGuess(letter);
+        }
+    }
+    
+    reloadDisplay();
+    checkWin();
+};
 
-// Word list
-// Maximum number of guesses
-// Stores the letters guessed
-// Index of the current word in the array
-// Word we build to match the current word
-// How many tries the player has left
-// Alert to tell if the game has started 
-// Alert for "press any key to try again"
-// Total wins 
-// Reset game variables
-// Use Math.floor to round the random number down
-// Clear arrays
-// Clear image
-// Create the guessing word and clear it out
-// Hide win and gameover images/text
-// Show display
-// Update the display on the HTML Page
-// Update the image based on how many guesses
-// If a game is finished, delete one keystroke and reset.
-// Check to make sure a-z was pressed.
-// Make sure this letter has not been used yet
-// This function takes a letter and finds all instances it was used in the string and replaces them in the guess word.
-// Array to store positions of letters in string
-// Loop through word finding all instances of guessed letter, store the indicies in an array.
-// If there are no indicies, remove guess and update the sports image
-// Loop through all the indicies and replace the "_" with a letter. 
+function evaluateGuess(letter) {
+
+    var positions = [];
+
+    for (var i = 0; i < wordList[currentWord].length; i++) {
+        if(wordList[currentWord][i] === letter) {
+            positions.push(i);
+        }
+    }
+
+    if (positions.length <= 0) {
+        guessesRemaining--;
+        updatesportsImage();
+    } else {
+
+        for(var i = 0; i < positions.length; i++) {
+            matchWord[positions[i]] = letter;
+        }
+    }
+};
+
+function checkWin() {
+    if(matchWord.indexOf("_") === -1) {
+        document.getElementById("youwin-image").style.cssText = "display: block";
+        document.getElementById("tryAgain").style.cssText= "display: block";
+        wins++;
+        finishedGame = true;
+    }
+};
+
