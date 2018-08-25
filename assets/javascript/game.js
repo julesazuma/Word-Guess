@@ -23,7 +23,7 @@ var finishedGame = false;
 var wins = 0;                   
 
 
-function refreshGame() {
+function reloadGame() {
     guessesRemaining = maxGuesses;
     startedGame = false;
 
@@ -61,6 +61,18 @@ function reloadDisplay() {
     }
 };
 
+document.onkeydown = function(event) {
+
+    if(finishedGame) {
+        reloadGame();
+        finishedGame = false;
+    } else {
+
+        if(event.keyCode >= 65 && event.keyCode <= 90) {
+            makeGuess(event.key.toLowerCase());
+        }
+    }
+};
 
 
 
